@@ -38,8 +38,7 @@ class AppChild extends Component {
                     container: "mapContainer",
                     center: this.state.center,
                     zoom: 3,
-                });
-                // this.setState({ view })
+                });                
             })
             .catch(err => {
                 console.error(err);
@@ -91,14 +90,11 @@ class AppChild extends Component {
                     </label>
                     <label>France<input type='radio' checked={this.state.place === 'Paris'} name='city' value='Paris' onChange={this.handleInputChange} />
                     </label>
-                    {/* {this.state.France === true && <img src={Flag_of_France} alt='French Flag' />} */}
                 </form>
                 <City place={this.state.place}
                     date={this.state.date.toString()}
                     center={this.state.center.toString()}
                 />
-                {/* {this.state.USA === true && <div className='city_container'>You're going to New York City!<img src={Flag_of_USA} alt='French Flag' /></div>}
-                    {this.state.France === true && <div className='city_container'>You're going to Paris!<img src={Flag_of_France} alt='French Flag' /></div>} */}
                 <div id='mapContainer' />
             </div>
         );
