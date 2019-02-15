@@ -47,59 +47,64 @@ class AppChild extends Component {
         //NEW way https://www.techrepublic.com/article/convert-the-local-time-to-another-time-zone-with-this-javascript/
         
     // calcTime('Paris', '+1')
-
+        const view = this.state.view;
+        view.goTo([2.3522, 48.8566], {duration: 500});
         this.setState({
             date: calcTime('+1'),
-            center: [2.3522, 48.8566]
+            // center: [2.3522, 48.8566]
         });
     } 
     else{
+        const view = this.state.view;
+        view.goTo([-74.0060, 40.7128],  {duration: 500});
         this.setState({
             // date: new Date(),
             date: calcTime('-5'),
-            center: [-74.0060, 40.7128]
+            // center: [-74.0060, 40.7128]
         });
     }
     }
 
     componentDidMount() {
         loadModules(
-          ["esri/Map", "esri/views/MapView", "esri/views/MapView"],
-          esriOptions
-        )
-          .then(([Map, MapView]) => {
-            const map = new Map({ basemap: "dark-gray-vector" });
-    
-            const view = new MapView({
-              map: map,
-              container: "mapContainer",
-              center: this.state.center,
-              zoom: 3,
-            });
-          })
+            ["esri/Map", "esri/views/MapView", "esri/views/MapView"],
+            esriOptions
+            )
+            .then(([Map, MapView]) => {
+                const map = new Map({ basemap: "dark-gray-vector" });
+                
+                const view = new MapView({
+                    map: map,
+                    container: "mapContainer",
+                    center: [-74.0060, 40.7128],
+                    zoom: 3,
+                });
+                this.setState({view})
+            })
           .catch(err => {
             console.error(err);
           });
       }
 
     componentDidUpdate(){
-        loadModules(
-            ["esri/Map", "esri/views/MapView", "esri/views/MapView"],
-            esriOptions
-          )
-            .then(([Map, MapView]) => {
-              const map = new Map({ basemap: "dark-gray-vector" });
+        console.log(this.state.view);
+        // loadModules(
+        //     ["esri/Map", "esri/views/MapView", "esri/views/MapView"],
+        //     esriOptions
+        //   )
+        //     .then(([Map, MapView]) => {
+        //       const map = new Map({ basemap: "dark-gray-vector" });
       
-              const view = new MapView({
-                map: map,
-                container: "mapContainer",
-                center: this.state.center,
-                zoom: 3,
-              });
-            })
-            .catch(err => {
-              console.error(err);
-            });
+        //       const view = new MapView({
+        //         map: map,
+        //         container: "mapContainer",
+        //         center: this.state.center,
+        //         zoom: 3,
+        //       });
+        //     })
+        //     .catch(err => {
+        //       console.error(err);
+        //     });
         
         
         //if USA is true, then change France to false, if France is true, change USA to false
