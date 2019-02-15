@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import './AppChild.css';
 import City from './City.js';
 
+//ESRI NPM PACKAGE VERSION, from Boyan example: https://codesandbox.io/s/n9k0jp8lyp
+import {loadModules, loadCss} from 'esri-loader';
+import {esriCSS, esriOptions} from './config';
+loadCss(esriCSS);
+//ESRI NPM PACKAGE VERSION
+
 class AppChild extends Component {
 
     constructor(props) {
@@ -56,11 +62,44 @@ class AppChild extends Component {
     }
     }
 
-    componentDidMount(){
-        console.log('Salut!🇫🇷');
-    }
+    componentDidMount() {
+        loadModules(
+          ["esri/Map", "esri/views/MapView", "esri/views/MapView"],
+          esriOptions
+        )
+          .then(([Map, MapView]) => {
+            const map = new Map({ basemap: "dark-gray-vector" });
+    
+            const view = new MapView({
+              map: map,
+              container: "mapContainer",
+              center: this.state.center,
+              zoom: 3,
+            });
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }
 
     componentDidUpdate(){
+        loadModules(
+            ["esri/Map", "esri/views/MapView", "esri/views/MapView"],
+            esriOptions
+          )
+            .then(([Map, MapView]) => {
+              const map = new Map({ basemap: "dark-gray-vector" });
+      
+              const view = new MapView({
+                map: map,
+                container: "mapContainer",
+                center: this.state.center,
+                zoom: 3,
+              });
+            })
+            .catch(err => {
+              console.error(err);
+            });
         
         
         //if USA is true, then change France to false, if France is true, change USA to false
@@ -86,7 +125,7 @@ class AppChild extends Component {
                 />
                     {/* {this.state.USA === true && <div className='city_container'>You're going to New York City!<img src={Flag_of_USA} alt='French Flag' /></div>}
                     {this.state.France === true && <div className='city_container'>You're going to Paris!<img src={Flag_of_France} alt='French Flag' /></div>} */}
-                
+                <div id='mapContainer'/>
             </div>
         );
     }
