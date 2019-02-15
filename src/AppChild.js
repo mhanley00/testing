@@ -8,6 +8,9 @@ import { esriCSS, esriOptions } from './config';
 loadCss(esriCSS);
 //ESRI NPM PACKAGE VERSION
 
+
+var view; //Had to make this var global so handleInputChange had access to it
+
 class AppChild extends Component {
 
     constructor(props) {
@@ -30,13 +33,13 @@ class AppChild extends Component {
             .then(([Map, MapView]) => {
                 const map = new Map({ basemap: "dark-gray-vector" });
 
-                const view = new MapView({
+                view = new MapView({
                     map: map,
                     container: "mapContainer",
-                    center: [-74.0060, 40.7128],
+                    center: this.state.center,
                     zoom: 3,
                 });
-                this.setState({ view })
+                // this.setState({ view })
             })
             .catch(err => {
                 console.error(err);
@@ -47,6 +50,7 @@ class AppChild extends Component {
         const target = event.target;
         const value = target.value;
         let newDate;
+        let newCenter;
 
         //UTC time diff calc https://www.techrepublic.com/article/convert-the-local-time-to-another-time-zone-with-this-javascript/
         function calcTime(offset) {
@@ -57,22 +61,22 @@ class AppChild extends Component {
         }
         if (value === 'Paris') {
 
-
-            const view = this.state.view;
             view.goTo([2.3522, 48.8566], { duration: 500 });
-             newDate = calcTime('+1');
-                // center: [2.3522, 48.8566]
+            newDate = calcTime('+1');
+            newCenter = [2.3522, 48.8566];
         }
         else {
-            const view = this.state.view;
+
             view.goTo([-74.0060, 40.7128], { duration: 500 });
             newDate = calcTime('-5');
-                // center: [-74.0060, 40.7128]
+            newCenter = [-74.0060, 40.7128];
         }
 
         this.setState({
             place: value,
-            date: newDate
+            date: newDate,
+            center: newCenter
+            
         });
 
         
