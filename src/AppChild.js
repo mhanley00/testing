@@ -9,8 +9,6 @@ class AppChild extends Component {
         console.log('Hello! 🇺🇸');
         super(props);
         this.state = {
-            // USA: false,
-            // France: false,
             place: 'NYC',
             date: new Date(),
             center: [-74.0060, 40.7128]
@@ -19,57 +17,50 @@ class AppChild extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
     }
     handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    this.setState({
-       place: value
-    });
+        //getting value from radio button click
+        const target = event.target;
+        const value = target.value;
+        let newDate;
+        let newCenter;
 
-    function calcTime(offset){
-        let d = new Date();
-        let utc = d.getTime() +(d.getTimezoneOffset()*60000);
-        let nd = new Date(utc + (3600000*offset));
-        return nd.toLocaleString();
-    }
-    if (value === 'Paris'){
+        //UTC time diff https://www.techrepublic.com/article/convert-the-local-time-to-another-time-zone-with-this-javascript/
+        function calcTime(offset) {
+            let d = new Date();
+            let utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+            let nd = new Date(utc + (3600000 * offset));
+            return nd.toLocaleString();
+        }
+        if (value === 'Paris') {
 
-        //NEW way https://www.techrepublic.com/article/convert-the-local-time-to-another-time-zone-with-this-javascript/
-        
+            newDate = calcTime('+1');
+            newCenter = [2.3522, 48.8566];
+        }
+        else {
+
+            newDate = calcTime('-5');
+            newCenter = [-74.0060, 40.7128];
+        }
         this.setState({
-            date: calcTime('+1'),
-            center: [2.3522, 48.8566]
-        });
-    } 
-    else{
-        this.setState({
-            // date: new Date(),
-            date: calcTime('-5'),
-            center: [-74.0060, 40.7128]
+            place: value,
+            date: newDate,
+            center: newCenter
         });
     }
-    }
 
-    componentDidMount(){
-        console.log('Salut!🇫🇷');
-    }
-
-    componentDidUpdate(){
-        
-    }
 
     render() {
         return (
             <div>
                 <form>
-                    <label>{config.text.instructions.content}</label><br/>
-                    <label>{config.text.instructions.options.option1}<input type='radio' checked={this.state.place==='NYC'} name='city' value='NYC' onChange={this.handleInputChange} />
+                    <label>{config.text.instructions.content}</label><br />
+                    <label>{config.text.instructions.options.option1}<input type='radio' checked={this.state.place === 'NYC'} name='city' value='NYC' onChange={this.handleInputChange} />
                     </label>
-                    <label>{config.text.instructions.options.option2}<input type='radio' checked={this.state.place==='Paris'} name='city' value='Paris' onChange={this.handleInputChange} />
+                    <label>{config.text.instructions.options.option2}<input type='radio' checked={this.state.place === 'Paris'} name='city' value='Paris' onChange={this.handleInputChange} />
                     </label>
                 </form>
-                <City place={this.state.place} 
-                date={this.state.date.toString()}
-                center={this.state.center.toString()}
+                <City place={this.state.place}
+                    date={this.state.date.toString()}
+                    center={this.state.center.toString()}
                 />
             </div>
         );
