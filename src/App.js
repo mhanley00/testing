@@ -8,7 +8,6 @@ class App extends Component {
     return (
       <div className="App">
       <h3>{config.text.welcomeMessage.content}</h3>
-       <p>Welcome!</p>
        <AppChild/>
        
       </div>
