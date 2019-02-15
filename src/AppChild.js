@@ -45,29 +45,30 @@ class AppChild extends Component {
             });
     }
 
+     //UTC time diff calc https://www.techrepublic.com/article/convert-the-local-time-to-another-time-zone-with-this-javascript/
+    calcTime(offset) {
+        let d = new Date();
+        let utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+        let nd = new Date(utc + (3600000 * offset));
+        return nd.toLocaleString();
+    }
+
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
         let newDate;
         let newCenter;
 
-        //UTC time diff calc https://www.techrepublic.com/article/convert-the-local-time-to-another-time-zone-with-this-javascript/
-        function calcTime(offset) {
-            let d = new Date();
-            let utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-            let nd = new Date(utc + (3600000 * offset));
-            return nd.toLocaleString();
-        }
         if (value === 'Paris') {
 
             view.goTo([2.3522, 48.8566], { duration: 500 });
-            newDate = calcTime('+1');
+            newDate = this.calcTime('+1');
             newCenter = [2.3522, 48.8566];
         }
         else {
 
             view.goTo([-74.0060, 40.7128], { duration: 500 });
-            newDate = calcTime('-5');
+            newDate = this.calcTime('-5');
             newCenter = [-74.0060, 40.7128];
         }
 
