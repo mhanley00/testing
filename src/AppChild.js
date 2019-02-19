@@ -103,4 +103,3 @@ class AppChild extends Component {
 }
 
 export default AppChild;
-//checkbox. input w/ type, checked property T/F based on state
