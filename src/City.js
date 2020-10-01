@@ -5,6 +5,7 @@ import React from 'react';
 import Flag_of_France from './Flag_of_France.svg';
 import Flag_of_USA from './Flag_of_USA.svg';
 
+
 function City(props){
 //functional component
 
